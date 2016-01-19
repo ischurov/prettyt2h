@@ -1,36 +1,53 @@
-# prettyt2h
+# prettyt2h: the simplest LaTeX to HTML convertor
 
-This is a pretty simple LaTeX to HTML convertor. We do not try to build a comprehensive
-convertor, only a small subset of LaTeX can be processed properly.
-The idea is that one needs only this part of the syntax to write lecture notes
-and books. So one can write LaTeX and get HTML + MathJax instantly.
+## Idea
+There are a lot of (La)TeX to HTML converters. All of them are unusable. The main reasons for that are  the following:
 
-## Planned features
+1. As TeX is Turing-complete language, it is virtually impossible to parse (La)TeX with anything except of
+(La)TeX itself.
+2. Most of the converters were written a long time ago. Most notably, they are not aware about excellent
+[MathJax](https://www.mathjax.org/) tool that parses rather rich subset of LaTeX equation language on the client side.
+3. Therefore, the converters try to parse equations (which is difficult) and try to be universal (which is impossible,
+due to 1) and fail.
+
+The approach of `prettyt2h` is different:
+
+ 1. First of all, we are not going to parse equations. Let MathJax deal with them, it's really good thing!
+ 2. Then, we are not going to make universal converter. We consider only very, very small subset of a general LaTeX syntax. However,
+ this syntax is enough to prepare lecture notes, simple papers and books. At least for the author of this tool.
+ 3. Moreover, we impose additional restrictions on the syntax to make it more parser-friendly.
+
+ Most probably, you will not be able to use `prettyt2h` with your LaTeX files. However, if you'll write LaTeX files with
+ `prettyt2h` in mind, you will be able to get pretty HTML pages from your LaTeX files in a moment.
+
+## Features
 
 1. All formulas are carefully preserved to proceed with MathJax on the client
-side.
+side. (The most important feature!)
 2. The following environments are supported:
-- amsthm-style (`theorem`, `lemma`, `example`, `hint`, `remark` and so on);
-- `enumerate` and `itemize`;
+    - amsthm-style (`theorem`, `lemma`, `example`, `hint`, `remark` and so on);
+    - `enumerate` and `itemize`;
 3. Cross-refs (`\label` and `\ref`) are supported (more or less).
-4. Also supported `section`, `subsection`, `subsubsection` as well as
-    asterix-version of them;
-5. Equation enumeration and `\eqref` are supported as well.
-6. %-comments (the corresponding lines are ignored)
+4. `section`, `subsection`, `subsubsection`, ..., `section*`, `subsection*`, ... are supported.
+4. `%`-comments partially supported (lines that begin with `%` will be ignored)
+
+### Planned
+1. Equation enumeration and `\eqref`.
+2. Figures and tables.
 
 ## Limitations
-This is a really dirty solution. I do not have time to make proper parser and so
-on, so I'll use the most horrible design decisions like extensive regex using.
-This lead to a bunch of limitations imposed to the input LaTeX text. Hopefully,
-they are not very restrictive in terms of output.
+This is rather dirty solutions. We use regexes and all other bad stuff for parsing.
+So you have to obey the rules to make parser happy.
 
-- Environments should begin with `\begin{...}` statement, followed by possible `\label`
+- Everything outside `{document}` environment is ignored.
+- Environments should begin with `\begin{...}` statement, followed by possible `\label`.
 statement, no other text on the same line is permitted.  
 - Environments should end with `\end{...}` statement, no other text on the same
     line is permitted.
+- The level of section can increase no more than by 1 (e.g. \subsubsection after \section is forbidden).
 
 ## Testcase
-This is not very comprehensive testcase
+This is not very comprehensive testcase. See more testcases in the appropriate directory.
 
     \begin{document}
         \section*{Introduction}
@@ -39,8 +56,8 @@ This is not very comprehensive testcase
         \section{It was the beginning}\label{sec:beg}
             This is another test.
 
-            \begin{theorem}[Pythagor]\label{thm:Pyth}
-                Pythogor says:
+            \begin{theorem}[Pythagoras]\label{thm:Pyth}
+                Pythagoras says:
                 \[
                     c^2 = a^2 + b^2
                 \]
