@@ -1,5 +1,11 @@
 # prettyt2h: the simplest LaTeX to HTML convertor
 
+**THE PROJECT IS ABANDONED**
+
+The project is abandoned after several hours of work in favor of
+[DocOnce](https://github.com/hplgit/doconce) tool which solves the issue I
+experienced. The following README is left for historical purposes.
+
 ## Idea
 There are a lot of (La)TeX to HTML converters. All of them are unusable. The main reasons for that are  the following:
 
@@ -13,8 +19,7 @@ due to 1) and fail.
 The approach of `prettyt2h` is different:
 
  1. First of all, we are not going to parse equations. Let MathJax deal with them, it's really good thing!
- 2. Then, we are not going to make universal converter. We consider only very, very small subset of a general LaTeX syntax. However,
- this syntax is enough to prepare lecture notes, simple papers and books. At least for the author of this tool.
+ 2. Then, we are not going to make universal converter. We consider only very, very small subset of a general LaTeX syntax. However,  this syntax is enough to prepare lecture notes, simple papers and books. At least for the author of this tool.
  3. Moreover, we impose additional restrictions on the syntax to make it more parser-friendly.
 
  Most probably, you will not be able to use `prettyt2h` with your LaTeX files. However, if you'll write LaTeX files with
